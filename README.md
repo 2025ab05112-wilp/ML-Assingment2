@@ -15,7 +15,7 @@ This dataset contains 2126 records of features extracted from Cardiotocogram exa
 **Metrics Comparison**
 
  
-| Accuracy               | Accuracy | AUC      | Precision | Recall  | F1 Score |   MCC   |
+| Model                  | Accuracy | AUC      | Precision | Recall  | F1 Score |   MCC   |
 | -----------------------| ---------| ---------|-----------|---------|----------|---------|
 | Logistic Regression    | 0.8756   | 0.9565   | 0.8794    | 0.8756  | 0.8751   | 0.6520  |
 | Decision Tree          | 0.9014   | 0.8580   | 0.8983    | 0.9014  | 0.8994   | 0.7252  |
@@ -27,7 +27,7 @@ This dataset contains 2126 records of features extracted from Cardiotocogram exa
 **Observation**
 
  
-| Accuracy               | Observation                                                                    |
+| Model                  | Observation                                                                    |
 | -----------------------|--------------------------------------------------------------------------------|
 | Logistic Regression    | Lower MCC indicates limited performance in handling large datasets             |
 | Decision Tree          | Lower AUC indicates weaker generalization and overfitting                      |
