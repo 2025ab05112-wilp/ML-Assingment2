@@ -27,7 +27,7 @@ if uploaded_file is not None:
     st.dataframe(data.head())
 
     if "fetal_health" not in data.columns:
-        st.error("Dataset must contain a 'fetal_health' target column.")
+        st.error("Dataset must contain a 'fetal_health' target column. Download dataset using https://www.kaggle.com/code/fahim6205/fetal-health-classification")
         st.stop()
 
     
