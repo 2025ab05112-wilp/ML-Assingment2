@@ -13,15 +13,17 @@ Application flow:
 - Select a **ML model**
 - View **Evaluation Metrics**
 - Analyze the results using **confusion matrix** and **classification reoprt**
+
+
 """)
 
 # Upload Dataset
-uploaded_file = st.file_uploader("Upload CSV Dataset", type=["csv"])
+uploaded_file = st.file_uploader("**Upload CSV Dataset**", type=["csv"])
 
 if uploaded_file is not None:
     data = pd.read_csv(uploaded_file)
 
-    st.subheader("Dataset Preview")
+    st.markdown("**Dataset Preview**")
     st.dataframe(data.head())
 
     if "fetal_health" not in data.columns:
@@ -39,29 +41,32 @@ if uploaded_file is not None:
         "XGBoost"
     ]
 
-    selected_options = st.multiselect("Select Classification Model's", model_dict)
+    modl_name = st.selectbox("**Select Classification Model's**", model_dict)
     
-    if selected_options:
-        st.subheader("Evaluation Metrics")
-        results = get_results(selected_options, data)
-
+    if modl_name:
+        st.markdown("**Evaluation Metrics**")
+        results = get_results(modl_name, data)
+        
         results_df = pd.DataFrame(results, index=["Accuracy", "AUC", "Precision", "Recall", "F1 Score", "MCC"]).T.round(4)
 
         st.table(results_df)
-        # Iterate over the list of selected options
-        # for model_name in selected_options:
-        #     model = model_dict[model_name]
-        #     y_pred, y_prob, y_test_bin = train_model(model, X_train_scaled, y_train, X_test_scaled, y_test)
-        #     metrics = evalualte_metric(y_test, y_pred, y_prob, y_test_bin)
-        #     #st.write(metrics)
-        #     col1, col2, col3, col4, col5, col6, col7 = st.columns(6)
-        #     col1.metric("Accuracy", f"{metrics['accuracy']:.4f}")
-        #     col1.metric("Accuracy", f"{metrics['accuracy']:.4f}")
-        #     col2.metric("Precision", f"{metrics['precision']:.4f}")
-        #     col3.metric("Recall", f"{metrics['recall']:.4f}")
-        #     col4.metric("F1 Score", f"{metrics['f1']:.4f}")
-        #     col5.metric("AUC", f"{metrics['auc']:.4f}")
-        #     col6.metric("MCC", f"{metrics['mcc']:.4f}")
 
+        st.markdown("**Confusion Metrics**")
 
+        fig, ax = plt.subplots(figsize=(2, 1))
+        sns.heatmap(
+            results[modl_name]["Confusion Matrix"],
+            annot=True,
+            fmt="d",
+            cmap="Blues",
+            xticklabels=["Normal", "Suspect", "Pathological"],
+            yticklabels=["Normal", "Suspect", "Pathological"],
+            ax=ax, annot_kws={"size":8}
+        )
+        ax.set_xlabel("Predicted")
+        ax.set_ylabel("Actual")
+        st.pyplot(fig, width=400)
 
+        st.markdown("**Classification Report**")
+        report = results[modl_name]['Classification Report']
+        st.dataframe(pd.DataFrame(report).transpose().round(4))

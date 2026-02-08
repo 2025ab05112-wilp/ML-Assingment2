@@ -81,11 +81,13 @@ def evalualte_model(model_name, data):
         "Precision":precision_score(y_test, y_pred, average="weighted"),
         "Recall":recall_score(y_test, y_pred, average="weighted"),
         "F1 Score":f1_score(y_test, y_pred, average="weighted"),
-        "MCC":matthews_corrcoef(y_test, y_pred)
+        "MCC":matthews_corrcoef(y_test, y_pred),
+        "Confusion Matrix": confusion_matrix(y_test, y_pred),
+        "Classification Report": classification_report(y_test, y_pred, target_names=["Normal", "Suspect", "Pathological"], output_dict=True)
     }
 
-def get_results(models, data):
+def get_results(model_name, data):
     results = {
-        model_name: evalualte_model(model_name, data) for model_name in models
+        model_name: evalualte_model(model_name, data) #for model_name in models
     }
     return results
